@@ -1,9 +1,29 @@
-import React from 'react'
+import { useEffect, useMemo, useState } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import Table from "../Table/Table";
 
-const TableList = () => {
+const TableList = ({ tableData }) => {
+  if (!tableData.data) {
+    return <p>loading</p>;
+  }
+
+  const tableHeader = tableData?.data?.headers;
+  const tableRow = tableData?.data?.rows;
+  const rowData = Object.entries(tableRow).map((arr) => arr[1]);
+  //  useEffect(() => {},[])
+
+  const headerData = Object.entries(tableHeader[0]).map((arr) => arr[1]);
+
+  console.log(headerData);
+  console.log(rowData);
+
   return (
-    <div>TableList</div>
-  )
-}
+    <div className="container">
+     
+        <Table rowData={rowData} headerData={headerData} />
 
-export default TableList
+    </div>
+  );
+};
+
+export default TableList;
