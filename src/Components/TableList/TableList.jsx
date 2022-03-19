@@ -15,12 +15,12 @@ const TableList = ({ tableData }) => {
   const headerData = Object.entries(tableHeader[0]).map((arr) => arr[1]);
 
   console.log(headerData);
-  console.log(rowData);
+//   console.log(tableHeader[0]);
 
   return (
     <div className="container">
      
-        <Table rowData={rowData} headerData={headerData} />
+        <Table rowData={rowData} headerData={headerData} tableHeader={tableHeader} />
 
     </div>
   );
