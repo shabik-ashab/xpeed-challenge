@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { Link } from "react-router-dom";
 
 const Table = ({ rowData, headerData, tableHeader }) => {
   const [order, setOrder] = useState("asc");
@@ -50,6 +51,9 @@ const Table = ({ rowData, headerData, tableHeader }) => {
     temp.splice(results.destination.index, 0, selectedRow);
     setRowD(temp);
   };
+  const handleUpdate = (id) => {
+
+  }
   return (
     <div className="mt-5" >
         <div>
@@ -100,6 +104,9 @@ const Table = ({ rowData, headerData, tableHeader }) => {
           }
         )
     }
+            <th>
+                Update
+            </th>
             </tr>
           </thead>
           <Droppable droppableId="tbody">
@@ -117,9 +124,15 @@ const Table = ({ rowData, headerData, tableHeader }) => {
                         {!headerData[1].hidden && <td>{tr.name}</td>}
                         {!headerData[2].hidden && <td>{tr.message}</td>}
                         {!headerData[3].hidden && <td>{tr.created_at}</td>}
-                        
+                        <td>
+                            <Link to={`/form/${tr.id}`} >
+                            <button className="btn btn-primary " >Update</button> 
+                            </Link>
+ 
+                        </td>
                       </tr>
                     )}
+
                   </Draggable>
                 ))}
                 {provided.placeholder}

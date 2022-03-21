@@ -40,7 +40,7 @@ const Repeater = ({tifOptions,handleAddField}) => {
     // console.log(inputField);
   return (
     <div>
-        <button onClick={(e) => handleAddField(e,finalArr)} className="btn btn-primary ms-3" >Plus</button>             
+        <button onClick={(e) => handleAddField(e,finalArr)} className="btn btn-primary ms-3" >Add</button>             
       
     </div>
   )

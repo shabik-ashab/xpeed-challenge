@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Navbar from './Components/Navbar/Navbar';
 import GetForm from './Pages/GetForm';
+import UpdateForm from './Pages/UpdateForm';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
       <Route path="/home" element={<Home />} />
       {/* <Route path="/form" element={<Form formData={formData} />} /> */}
       <Route path='/getForm' element={<GetForm />} />
+      <Route path='/form/:id' element={<UpdateForm />} />
     </Routes>
   </BrowserRouter>
   );
