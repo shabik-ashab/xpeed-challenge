@@ -16,6 +16,12 @@ const Repeater = ({tifOptions,handleAddField}) => {
         // console.log(k.repeater_fields)
         k?.repeater_fields?.designation
     ))
+    const repeat =  Object.entries(tifOptions?.map(
+        (k) =>
+        // console.log(k)
+        // k?.value 
+        k
+    ))
     // console.log(tifOptions.repeater_fields);
    
     const newArr = repeaterF.map((r) => (
@@ -26,21 +32,27 @@ const Repeater = ({tifOptions,handleAddField}) => {
         //    console.log(r[1])
             r[1]
         ))
-    // const anotherArr = newArr.map((n) => (
-    //     console.log(n)
-    // ))
+        const newArrR = repeat.map((r) => (
+            //    console.log(r[1])
+                r[1]
+            ))  
+
+    const filter = newArrR.filter(x => x.title.toLowerCase() === 'work')        
+    const repeaterField = filter[0].value;
     // const anotherArrD = newArrD.map((n) => (
     //     console.log(n)
     // ))
     const filterNewArr = newArr.filter(x => x != undefined)
     const filterNewArrD = newArrD.filter(x => x != undefined)
+    // const filterNewArrR = anotherArr.filter(x => x.value !=  )
     
     const finalArr = [filterNewArr[0],filterNewArrD[0]]
-    // console.log(finalArr);
-    // console.log(inputField);
+  
+    // console.log(repeaterField);
+
   return (
     <div>
-        <button onClick={(e) => handleAddField(e,finalArr)} className="btn btn-primary ms-3" >Add</button>             
+        <button onClick={(e) => handleAddField(e,finalArr,repeaterField)} className="btn btn-primary ms-3" >Add</button>             
       
     </div>
   )

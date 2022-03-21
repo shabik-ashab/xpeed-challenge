@@ -50,10 +50,22 @@ const Table = ({ rowData, headerData, tableHeader }) => {
     let [selectedRow] = temp.splice(results.source.index, 1);
     temp.splice(results.destination.index, 0, selectedRow);
     setRowD(temp);
+    fetch(" http://localhost/api/submit_form.php ", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(temp),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+          if (data.status === 'success') {
+            alert('ok')
+          }
+        });
   };
-  const handleUpdate = (id) => {
-
-  }
+ 
   return (
     <div className="mt-5" >
         <div>
@@ -128,7 +140,6 @@ const Table = ({ rowData, headerData, tableHeader }) => {
                             <Link to={`/form/${tr.id}`} >
                             <button className="btn btn-primary " >Update</button> 
                             </Link>
- 
                         </td>
                       </tr>
                     )}
