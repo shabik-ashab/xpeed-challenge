@@ -50,7 +50,7 @@ const Table = ({ rowData, headerData, tableHeader }) => {
     let [selectedRow] = temp.splice(results.source.index, 1);
     temp.splice(results.destination.index, 0, selectedRow);
     setRowD(temp);
-    fetch(" http://localhost/api/submit_form.php ", {
+    fetch("http://localhost/api/reorder.php ", {
         method: "POST",
         headers: {
           "content-type": "application/json",

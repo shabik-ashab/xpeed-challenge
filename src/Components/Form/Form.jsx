@@ -7,6 +7,11 @@ const Form = ({ formData }) => {
   const [inputField, setInputField] = useState([]);
   const [value,setValue] = useState([]);
 
+  const [formValues,setFormValues] = useState({});
+  const [formErrors,setFormErrors] = useState({});
+  const[error,setError] = useState(true);
+  const[name,setName] = useState('')
+
   const location = useLocation();
 
   const path = location.pathname;
@@ -30,10 +35,66 @@ const Form = ({ formData }) => {
       //   console.log(key[1])
       key[1]
   );
- console.log(formField);
+//  console.log(formField);
+ 
+ const handleChange = e => {
+  //  console.log(e.target);
+   const {name,value} = e.target;
+   setFormValues({...formValues, [name]: value})
+  //  console.log(formValues);
+   const newVal = value.replace(value.replace(/[^a-zA-Z\d]/ig, ""))
+  //  setName(value.replace(/\p{L}+/u, ""))
+ }
+ const handleSubmit = e => {
+   e.preventDefault();
+  //  setFormErrors(validate(formValues) )
+  fetch("http://localhost/api/reorder.php ", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(formValues),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+            // console.log(data);
+          if (data.status === 'success') {
+            alert('ok')
+          }
+        });
+  
+
+ }
+//  const validate = (e,val) => {
+//   const errors = {};
+//   const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+//   const nameReg = /[A-Za-z]/i;
+//   if(!nameReg.test(e.target.value) || e.target.name === 'full name'){
+//     console.log(e.target.value);
+//     errors.name = 'only letter is valid'
+//     setError(true)
+//   }else if(nameReg.test(e.target.value) || e.target.name === 'full name'){
+//     console.log(e.target.value);
+//     errors.name = '';
+//     setError(false)
+//   }
+//   return errors;
+//  }
+// const handleBlur = (e,val) => {
+//   const errors = {};
+//   // console.log(val);
+//   const fieldName = e.target.name;
+//   setFormErrors(validate(e,val) )
+//   // if(formErrors.name === ''){
+//   //   setError(false)
+//   // }
+
+// }
+console.log(error);
   return (
     <div className="container mt-5">
-      <form>
+       {/* <pre>{JSON.stringify(formValues, undefined, 2)}</pre> */}
+      <form onSubmit={handleSubmit}>
         {Object.entries(formField[0]).map(
           (key, i) => {
             return (
@@ -42,7 +103,9 @@ const Form = ({ formData }) => {
                   <div className="input-group mb-3">
                     <span className="input-group-text">{key[1].title}</span>
                     {key[1].type === "text" && (
+                      <>
                       <input
+                      name={key[1].title.toLowerCase()}
                         type="text"
                         className={`form-control ${key[1].html_attr?.class}`}
                         aria-label="Sizing example input"
@@ -51,12 +114,21 @@ const Form = ({ formData }) => {
                         required={key[1].required}
                         placeholder={key[1].value}
                         defaultValue={key[1].value}
+                        onChange={handleChange}
+                        // pattern='[A-Za-z]'
+                        // value={name}
+                        // onBlur={(e) => handleBlur(e,key[1].validate)}
                       />
+                      <br />
+                      <p>{formErrors.name}</p>
+                      </>
                     )}
+                    
                     {key[1].type === "email" && (
                       <input
                         required
-                        type="text"
+                        name={key[1].title.toLowerCase()}
+                        type="email"
                         className={`form-control ${key[1].html_attr?.class}`}
                         aria-label="Sizing example input"
                         aria-describedby="inputGroup-sizing-default"
@@ -64,11 +136,13 @@ const Form = ({ formData }) => {
                         required={key[1].required}
                         placeholder={key[1].value}
                         defaultValue={key[1].value}
+                        onChange={handleChange}
                       />
                     )}
                     {key[1].type === "textarea" && (
                       <input
                         type="text"
+                        name={key[1].title.toLowerCase()}
                         //   key[1].required?
                         className={`form-control ${key[1].html_attr?.class}`}
                         aria-label="Sizing example input"
@@ -77,14 +151,17 @@ const Form = ({ formData }) => {
                         required={key[1].required}
                         placeholder={key[1].value}
                         defaultValue={key[1].value}
+                        onChange={handleChange}
                       />
                     )}
                     {key[1].type === "select" && (
                       <select
+                      name={key[1].title.toLowerCase()}
                         className={`form-select form-select-lg mb-3 ${key[1].html_attr?.class}`}
                         aria-label=".form-select-lg example"
                         id={key[1].html_attr?.id}
                         required={key[1].required}
+                        onChange={handleChange}
                       >
                         {/* {
                         key[1].value && 
@@ -102,6 +179,7 @@ const Form = ({ formData }) => {
                         {key[1].options.map((o, i) => (
                           <div key={i} className="form-check mt-1">
                             <input
+                            name={key[1].title.toLowerCase()}
                               value={o.key}
                               className={`form-check-input ms-2  ${key[1].html_attr?.class}`}
                               type="radio"
@@ -113,6 +191,7 @@ const Form = ({ formData }) => {
                               // defaultValue={key[1].value}
                               defaultChecked={key[1].default === o.key}
                               // onChange={}
+                              onChange={handleChange}
                             />
 
                             <label
@@ -160,12 +239,14 @@ const Form = ({ formData }) => {
                       {f.title}
                     </span>
                     <input
+                      name={f.title.toLowerCase()}
                       type={f.type}
                       className="form-control"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
                       required={f.required}
                       // placeholder={}
+                      onChange={handleChange}
                       defaultValue={f.title === 'Work place' ? v.work_place : v.designation}
                     />
                   </div >
@@ -181,16 +262,17 @@ const Form = ({ formData }) => {
                       {f.title}
                     </span>
                     <input
+                    name={f.title.toLowerCase()}
                       type={f.type}
                       className="form-control"
                       aria-label="Sizing example input"
                       aria-describedby="inputGroup-sizing-default"
                       required={f.required}
+                      onChange={handleChange}
                       // placeholder={}
                       // defaultValue={key[1].value}
                     />
-                  </div>
-                    
+                  </div>                 
                       }
                   </div>
                 ))}
@@ -199,7 +281,7 @@ const Form = ({ formData }) => {
           })}
         </div>
         <div className="col-12">
-          <button className="btn btn-primary" type="submit">
+          <button  className="btn btn-primary" type="submit">
             Submit form
           </button>
         </div>
