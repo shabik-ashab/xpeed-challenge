@@ -14,7 +14,7 @@ const TableList = ({ tableData }) => {
 
   const headerData = Object.entries(tableHeader[0]).map((arr) => arr[1]);
 
-  console.log(headerData);
+//   console.log(headerData);
 //   console.log(tableHeader[0]);
 
   return (

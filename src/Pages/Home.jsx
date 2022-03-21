@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Navbar from '../Components/Navbar/Navbar'
 import TableList from '../Components/TableList/TableList'
 
 const Home = () => {
@@ -13,7 +12,7 @@ const Home = () => {
   }, []);
   return (
     <div>
-        <Navbar />
+      
         <TableList tableData={tableData} />
     </div>
   )
